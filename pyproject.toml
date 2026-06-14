@@ -3,4 +3,8 @@ name = "measure_zebrafish_oct"
 version = "0.1.0"
 dependencies = [
 	"numpy",
+	"pandas",
+	"matplotlib",
+	"opencv-python",
+	"tkinter",
 ]

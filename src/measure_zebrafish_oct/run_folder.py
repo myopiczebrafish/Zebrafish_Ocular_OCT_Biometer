@@ -2,7 +2,6 @@ import subprocess
 from matplotlib import pyplot as plt
 import numpy as np
 import torch
-from pathlib import time
 import pandas as pd
 import matplotlib.pyplot as plt
 import cv2
@@ -37,14 +36,14 @@ def crop_im(image_loc, out_loc, plot=False):
     end_x = 3 * one_fifth_w
     cropped_img = img[:, start_x:end_x, 0] #image forced to be MONO.
     
-    assert np.allclose(cropped_img.shape, (1080, 102))
+    assert np.allclose(cropped_img.shape, (1024, 102)), f"Input shape {cropped_img.shape} after cropping didnt' match expected shape (1024, 102)"
     # Display the images
     if plot:
         cv2.imshow('Original Image', img)
         cv2.imshow('Cropped Image (Middle Fifth)', cropped_img)
         cv2.waitKey(10)
         cv2.destroyAllWindows()
-    cv2.imwrite(out_loc/str(image_loc.with_suffix("").name + "_0000.png"), cropped_img)
+    cv2.imwrite(Path(out_loc)/(image_loc.with_suffix("").name + "_0000.png"), cropped_img)
     return
 
 def prep_folder_for_running(folder, out_folder):
@@ -96,7 +95,7 @@ def write_file_probs(floc:Path):
         retina_start = np.argmax(odds_t3)
         pcd_start = np.argmax(odds_t4)
         
-        nums = f"{floc.with_suffix('').name},{lens_start - cornea_start},{cce(cornea_start, lens_start, odds[4, :], ce_loss):.3f},{vcd_start - lens_start},{cce(lens_start, vcd_start, odds[3, :], ce_loss):.3f},{retina_start - vcd_start},{cce(vcd_start, retina_start, odds[2, :], ce_loss):.3f},{pcd_start - retina_start},{cce(retina_start, pcd_start, odds[1, :], ce_loss):.3f},"
+        nums = f"{f.with_suffix('').name},{lens_start - cornea_start},{cce(cornea_start, lens_start, odds[4, :], ce_loss):.3f},{vcd_start - lens_start},{cce(lens_start, vcd_start, odds[3, :], ce_loss):.3f},{retina_start - vcd_start},{cce(vcd_start, retina_start, odds[2, :], ce_loss):.3f},{pcd_start - retina_start},{cce(retina_start, pcd_start, odds[1, :], ce_loss):.3f},"
         print(nums)
         inp_list.append(nums)
 
@@ -114,7 +113,7 @@ def run_full_AI_pipeline_on_folder(in_folder: Path, out_folder:Path, dataset='00
         '-i',
         str(in_folder),
         '-o',
-        str(out_folder)
+        str(out_folder),
         '-d',
         dataset,
         '-c', '2d',  '-chk',  'checkpoint_best.pth',  '--save_probabilities'])
@@ -134,7 +133,7 @@ def query_folder(folder: Path):
 
 
 def process_folder(folder, output_folder, dataset='002'):
-    images = [str(f) for f in folder.iterdir() if f.suffix in [".jpg", ".tiff", '.png']]
+    images = [f for f in folder.iterdir() if f.suffix in [".jpg", ".tif", '.tiff', '.png']]
     with tempfile.TemporaryDirectory() as temp_dir:
         # process the input images to the input folder.
         # crop and rename the images to be processed by nnunet
@@ -147,7 +146,7 @@ def process_folder(folder, output_folder, dataset='002'):
 if __name__ == "__main__":
 
     
-    folder: Path =  None
+    folder: Path = '/media/robin/ROBIN/vetbond appendix/'
     #if main argument is a folder of folders, run over each of the folders
         #remove the temporary directo
     #if it's a fodler of images, run on that fodler
