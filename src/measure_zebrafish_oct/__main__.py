@@ -3,7 +3,7 @@ import tempfile
 from pathlib import Path
 
 # the default entrypoint for the zebrafish segmenter.
-dataset = '001'
+dataset = '002'
 #this is a placeholder value
 
 # find the folder to segment
