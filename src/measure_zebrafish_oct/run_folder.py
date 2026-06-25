@@ -70,7 +70,7 @@ def write_file_probs(floc:Path):
     the confidence in said prediction.
     """
     ce_loss = torch.nn.KLDivLoss()
-    logic_string = f"NAME,ACD,ACD CONF,LENS,LENS CONF,VCD,VCD CONF,RT,RT CONF"
+    logic_string = f"NAME,CACop,CACop CONF,LTop,LTop CONF,VCDop,VCDop CONF,RTop,RTop CONF"
     inp_list = [logic_string]
 
     for f in floc.iterdir():
