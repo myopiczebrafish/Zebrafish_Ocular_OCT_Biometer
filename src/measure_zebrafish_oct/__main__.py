@@ -4,15 +4,12 @@ from pathlib import Path
 
 # the default entrypoint for the zebrafish segmenter.
 dataset = '001'
-
-# check that NNUNET has properly loaded the dataset location. #make this changable. 
+#this is a placeholder value
 
 # find the folder to segment
 
 folder_to_run = get_folder()
-#folder_to_run = Path("/media/robin/KINGSTON/NN_analysis/round2")
 output_folder = get_folder()
-#output_folder = Path("/media/robin/KINGSTON/NN_analysis/outputs")
 
 
 def folder_recurse(in_folder, out_folder, dataset):
