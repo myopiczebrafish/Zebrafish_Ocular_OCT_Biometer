@@ -1,4 +1,4 @@
-# zebrafish_OCT_measurer
+# Zebrafish Ocular OCT Biometer
 This library was developed to be used in tandem with a convolutional neural network that was trained on SD-OCT images of wildtype zebrafish eyes on the nnU-Net[^1] framework. Loading the weights and configuration of the trained nnU-Net model and running this library enables automated measurements of zebrafish eyes from SD-OCT images.
 
 Comprehensive documentation of nnU-Net can be found here:  
