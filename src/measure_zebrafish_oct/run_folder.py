@@ -140,15 +140,7 @@ def process_folder(folder, output_folder, dataset='002'):
         for im in images:
             crop_im(im, temp_dir)
         
-        #then we run NNUNET on the folder
+        #then we run nnU-Net on the folder
         run_full_AI_pipeline_on_folder(Path(temp_dir), output_folder, dataset=dataset)
-
-if __name__ == "__main__":
-
-    
-    folder: Path = '/media/robin/ROBIN/vetbond appendix/'
-    #if main argument is a folder of folders, run over each of the folders
-        #remove the temporary directo
-    #if it's a fodler of images, run on that fodler
     
     
