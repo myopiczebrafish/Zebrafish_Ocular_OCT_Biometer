@@ -4,10 +4,9 @@ from pathlib import Path
 
 # the default entrypoint for the zebrafish segmenter.
 dataset = '002'
-#this is a placeholder value
 
-# find the folder to segment
 
+# find the input folder with the images to segment and the output folder to store the .csv file
 folder_to_run = get_folder()
 output_folder = get_folder()
 
