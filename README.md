@@ -14,7 +14,7 @@ Part of the installation steps requires setting up storage locations, which desc
 
 ## Zebrafish_OCT_measurer libraries
 Several other libraries are required to be installed in the same virtual environment by running the following commands:  
-`git clone https://github.com/rlav440/zebrafish_OCT_measurer`    
+`git clone https://github.com/myopiczebrafish/Zebrafish_Ocular_OCT_Biometer`    
 `cd zebrafish_oct_measurer`  
 `pip install .`
 
