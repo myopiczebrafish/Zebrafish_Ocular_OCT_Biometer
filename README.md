@@ -7,7 +7,7 @@ https://github.com/MIC-DKFZ/nnUNet
 
 # Installation and set up
 ## nnU-Net
-The virtual environment and software requirements for nnU-Net are documented in the following link:  
+The virtual environment and software requirements for nnU-Net[^1] are documented in the following link:  
 https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/installation_instructions.md
 
 Part of the installation steps requires setting up storage locations, which describe where raw datasets, pre-processed data used during training, and trained models are saved. (The weights and configuration of the trained model will need to be moved here.)
@@ -72,9 +72,9 @@ To explain how the library is used to automatically run the trained nnU-Net, the
 
 This command uses the epoch with the lowest validation loss for each fold to make segmentation probabilities and assigns each pixel of the SD-OCT images in the input folder to a given label. The segmentation probabilities across the five folds are averaged to produce the final segmentation probabilities, which are saved as a single array in the output folder. 
 
-Since nnU-Net performs image segmentation (assigning a label to each pixel), rather than measuring distances, a post-processing step was required to determine measurements for each ocular structure (i.e., the boundaries of each label). 
+Since nnU-Net[^1] performs image segmentation (assigning a label to each pixel), rather than measuring distances, a post-processing step was required to determine measurements for each ocular structure (i.e., the boundaries of each label). 
 
-After running nnU-Net on the input images, the final segmentation probability labels were summed across each row of the segmented images for each label. Since there were five labels (‘CACop’, ‘LTop’, ‘VCDop’, ‘RTop’, and ‘background’), this produced 5 average probabilities that the row belongs to a given label. The label with the highest probability was assigned to the row. 
+After running nnU-Net[^1] on the input images, the final segmentation probability labels were summed across each row of the segmented images for each label. Since there were five labels (‘CACop’, ‘LTop’, ‘VCDop’, ‘RTop’, and ‘background’), this produced 5 average probabilities that the row belongs to a given label. The label with the highest probability was assigned to the row. 
 
 The boundaries of the ocular structures were found by identifying the rows at which the prediction shifts from one label to another. The number of rows assigned to a label represents the optical path length of the structure in pixels. A simplified diagram of this process with three labels (‘background’, ‘cac’, and ‘lens’) is shown in the Figure 2 below.
 
