@@ -28,10 +28,13 @@ https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/set_environment_var
 ## Making predictions with the trained nnU-Net
 Note that this network only accepts images of 512 x 1024 pixels and the central axis of the zebrafish eye should be in the middle of the image (Figure 1).  
 
-<img width="256" height="512" alt="4lv-AVG-20241212-130000" src="https://github.com/user-attachments/assets/f3af6866-6112-48fa-83a2-d5e9f9ebdb99" />  
-
-
+<p align="middle">
+  <img width="256" height="512" alt="4lv-AVG-20241212-130000" src="https://github.com/user-attachments/assets/f3af6866-6112-48fa-83a2-d5e9f9ebdb99" />  
+</p> 
+<div align="center">
 Figure 1. An example 512 x 1024 pixel input B-scan.
+</div>  
+  
 
 When Dataset002_zebrafish is in the appropriate `nnUNet_results folder`, the trained nnU-Net can be run following these steps:
 1. Run the command  `python -m measure_zebrafish_oct` in the virtual environment.  
@@ -47,10 +50,12 @@ The optical path length (pixels) of the cornea and anterior chamber depth (CACop
 Note that the CACop represents the distance from the corneal apex to the anterior lens surface and RTop represents the distance from the anterior surface of the retinal nerve fibre layer to the retinal pigment epithelium.  
 
 
-<p align="center">
+<p align="middle">
   <img width="80%" alt="Screenshot 2026-06-25 at 8 01 46 PM" src="https://github.com/user-attachments/assets/0f75aec8-7de6-4ec3-93a6-36760128d902" />
 </p>  
-Table 1. An example output.csv file.
+<div align="center"> 
+  Table 1. An example output.csv file.
+</div>
 
 ## Pixel to micrometre conversion
 The optical path length can be converted to the physical path length using the appropriate refractive index for the structure and the following equation:
@@ -78,10 +83,12 @@ After running nnU-Net[^1] on the input images, the final segmentation probabilit
 
 The boundaries of the ocular structures were found by identifying the rows at which the prediction shifts from one label to another. The number of rows assigned to a label represents the optical path length of the structure in pixels. A simplified diagram of this process with three labels (‘background’, ‘cac’, and ‘lens’) is shown in the Figure 2 below.
 
-<p align="center">
+<p align="middle">
   <img width=80% alt="Screenshot 2026-06-25 at 9 25 20 PM" src="https://github.com/user-attachments/assets/7d09454b-9f0a-4f5c-847a-791fa5e7cbbd" />
 </p>
-Figure 2. Finding the boundaries of a segmented example image. (A) For every pixel of the example image with 7 rows (R1 to R7) and 3 columns (C1 to C3), the neural network predicts the probability that the pixel belongs to the labels: ‘background’, ‘cac’, and ‘lens’. For each row, the probabilities are averaged for each label and are denoted by the AVG columns. The labels with the highest average probability (bolded) are assigned to that row. (B) The assigned row labels are used to determine the boundaries of the image. The number of rows represents the measurement in pixels. For example, R1 to R3 are assigned to the label ‘background’ and have a measurement depth of 3 pixels.
+<div align="center"> 
+  Figure 2. Finding the boundaries of a segmented example image. (A) For every pixel of the example image with 7 rows (R1 to R7) and 3 columns (C1 to C3), the neural network predicts the probability that the pixel belongs to the labels: ‘background’, ‘cac’, and ‘lens’. For each row, the probabilities are averaged for each label and are denoted by the AVG columns. The labels with the highest average probability (bolded) are assigned to that row. (B) The assigned row labels are used to determine the boundaries of the image. The number of rows represents the measurement in pixels. For example, R1 to R3 are assigned to the label ‘background’ and have a measurement depth of 3 pixels.
+</div>
 
 ## Reliability metric
 The reliability metric of the optical path length for each structure in the output.csv provides a general idea of whether the segmentation was successful or not. The reliability metric is found by measuring the Kullback-Leibler (KL) divergence. The KL divergence essentially compares the distribution of the predicted boundaries of the labels and distribution of the the per pixel probabilities. The reliability metric is reported as 1-KL distribution. 
@@ -93,17 +100,28 @@ Reasons for a low reliability metric may include a poor signal to noise ratio or
 nnU-Net[^1] was trained according to the standard training protocol (5-fold cross-validation, 1000 epochs) outlined in the nnU-Net documentation: 
 https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/how_to_use_nnunet.md
 
-The training dataset comprised 108 spectral-domain optical coherence tomography (SD-OCT) images (102 x 1024 pixels) of 6 to 13 weeks post-fertilisation (wpf) wildtype AB zebrafish eyes. 
+The training dataset comprised 108 spectral-domain optical coherence tomography (SD-OCT) images (102 x 1024 pixels) of 6 to 13 weeks post-fertilisation (wpf) wildtype AB zebrafish eyes (Table 2). An equal number of frontal and transverse (relative to the axis of the fish body) scans of the right and left eyes were included, with axial lengths ranging from 868 to 1428 μm. 
 
 SD-OCT images were obtained from a Lumedica OQ LabScope 3.0 XRD SD-OCT (Lumedica, Durham, NC, United States) with an 840 nm centre wavelength, 3.44 μm axial resolution, and a 4x microscope objective. 
 
-Three experienced graders manually labelled 36 different SD-OCT images. The labels were the optical path lengths of the: cornea + anterior chamber depth (CACop), lens thickness (LTop), vitreous chamber depth (VCDop), retinal thickness (RTop), and background. The dataset comprised an equal number of frontal and transverse (relative to the axis of the fish body) scans of the right and left eyes, with axial lengths ranging from 868 to 1428 μm.
+Three experienced graders manually labelled 36 different SD-OCT images. The optical path length of the axial length (ALop) was saved as a line to each image and used to locate the retinal pigmented epithelium (presumed to be at the bottom of the line). Using the RPE as a starting point, graders located the boundaries of the ocular structures for each image.
 
 Training dataset details: 
-<p align="center">
+<p align="middle">
   <img width="80% alt="Screenshot 2026-06-25 at 7 08 43 PM" src="https://github.com/user-attachments/assets/88529d69-fc18-4ea9-ad4e-5a96c5f37eca" />
 </p> 
-Table 1. Summary of training dataset used for nnU-Net (mean ± SD (μm)) and grouped by weeks post-fertilisation (wpf).
+<div align="center"> 
+  Table 2. Summary of training dataset used for nnU-Net (mean ± SD (μm)) and grouped by weeks post-fertilisation (wpf).
+</div>
+
+## Ground-truth labels
+To format the one-dimensional manually measured ocular structures into the expected two-dimensional shape, where each pixel was assigned to a ground-truth label, the boundaries of the ocular structures were extended across the cropped image width, ensuring that each pixel in the image was assigned a ground-truth label (Figure 3). The ground truth labels were the optical path lengths of the: cornea + anterior chamber depth (CACop), lens thickness (LTop), vitreous chamber depth (VCDop), retinal thickness (RTop), and background.  
+<p align="middle">
+  <img width="80%" alt="image" src="https://github.com/user-attachments/assets/4404e541-6552-4527-875c-105d9582e998" />
+</p>
+<div align="center">
+  Figure 3. Example of the steps required to prepare an SD-OCT image of a zebrafish eye for the training dataset. (A) The ALop (yellow line) was manually labelled and saved to the image. (B) The manually determined coordinates of the CACop (red), LTop (blue), VCDop (yellow), and RTop (pink) were matched to the image. (C) The same image was cropped to the middle fifth (102 x 1024 pixels), and the boundaries of the ocular structures were extended across the image to assign each pixel to the appropriate ground-truth label.
+</div>
 
 
 [^1]: Isensee F, Jaeger PF, Kohl SAA, Petersen J, Maier-Hein KH. nnU-Net: a self-configuring method for deep learning-based biomedical image segmentation. Nature Methods. 2020;18(2):203-211. doi:https://doi.org/10.1038/s41592-020-01008-z
